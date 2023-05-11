@@ -22,12 +22,54 @@ SELECT  count(id_curs) AS nr_cursuri , an from cursuri group by an having nr_cur
 SELECT VERSION(),now();
 -- comentariu
 SELECT nume,prenume FROM student;
+
 SELECT titlu_curs FROM cursuri;
 
 SELECT * FROM universitate.student;
+
 SELECT COUNT(id) AS nr,an FROM student GROUP BY an;
+
 SELECT bursa FROM student WHERE an=1 AND bursa IS NOT NULL;
+
 SELECT SUM(bursa) FROM student WHERE an=1 AND bursa IS NOT NULL GROUP BY an;
+
 SELECT SUM(bursa) AS total, an FROM student WHERE bursa IS NOT NULL GROUP BY an;
+
 UPDATE student SET status='busier' WHERE bursa IS NOT NULL;
+
 SELECT CONCAT(nume,' ',prenume) full_name, an FROM universitate.student;
+
+SELECT * FROM `student` WHERE year(data_nastere)>= '1993' AND year(data_nastere) <= '1994';
+
+SELECT * FROM `profesor` WHERE grad_didactic IN ('I','II');
+
+SELECT * FROM `cursuri`WHERE an=2 AND semestru=2;
+
+SELECT * FROM `student` WHERE prenume LIKE 'Ion%';
+
+SELECT * FROM `student` WHERE DATE_FORMAT(data_nastere,'%m-%d')='09-21';
+
+SELECT * FROM `student` WHERE bursa*12 >=4000;
+
+SELECT * FROM `student` ORDER BY nume ASC, prenume DESC;
+
+SELECT * FROM `student` ORDER BY rand();
+
+SELECT * FROM `student` ORDER BY rand() LIMIT 1;
+
+SELECT * FROM `student` ORDER BY data_nastere DESC LIMIT 5;
+
+SELECT c.id_curs, c.titlu_curs, n.valoare FROM `cursuri` AS c NATURAL JOIN note AS n;
+
+--SELECT * FROM `profesor` LEFT JOIN didactic ON profesor.id = didactic.id_prof WHERE profesor.id =6;
+
+SELECT * FROM `profesor` 
+LEFT JOIN didactic ON profesor.id = didactic.id_prof
+INNER JOIN cursuri ON cursuri.id_curs = didactic.id_curs
+WHERE profesor.id =6;
+
+SELECT profesor.nume, profesor.prenume, cursuri.titlu_curs,note.valoare FROM `profesor`
+LEFT JOIN didactic ON profesor.id = didactic.id_prof
+INNER JOIN cursuri ON cursuri.id_curs = didactic.id_curs
+LEFT JOIN note ON cursuri.id_curs = note.id_curs
+WHERE profesor.id =6 AND note.valoare IS NOT NULL; 
